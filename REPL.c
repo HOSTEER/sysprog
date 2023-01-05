@@ -1,9 +1,10 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#define PROMPT "enseash %"
 #include <sys/types.h>
 #include <sys/wait.h>
+#define PROMPT "enseash %"
 
 int interpretor(char * buffer){
 	if(strcmp(buffer,"exit\n")==0){
@@ -14,12 +15,14 @@ int interpretor(char * buffer){
 	else{
 		return 1;
 	}
-	int pid;
+	/*int pid;
 	pid=fork();
 	if(pid==0){
-		execlp(buffer, buffer,NULL);}
+		execlp(buffer, buffer,NULL);
+		return (EXIT_FAILURE);
+	}
 	else{
 		wait(NULL);
 		write(STDOUT_FILENO,PROMPT,strlen(PROMPT));
-	}
+	}*/
 }

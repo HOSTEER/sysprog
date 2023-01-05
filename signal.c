@@ -1,0 +1,3 @@
+void signal(char *cmd){
+	
+}

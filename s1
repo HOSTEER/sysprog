@@ -1,0 +1,55 @@
+//#inlcude "question3.h
+
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+#define MAX 200
+#define PROMPT "enseash %"
+#define MESSAGE "Bienvenue dans le Shell ENSEA.\n\rPour quitter, tapez 'exit'.\n"
+#define EXIT_MSG "bye bye...\n"
+
+void clean(char * buf){
+	while(*buf!='\0'){
+		*buf='\0';
+		buf++;
+	}
+}
+
+int main(){
+	char Commande[MAX];
+	int pid;
+	write(STDOUT_FILENO,MESSAGE,strlen(MESSAGE));
+	write(STDOUT_FILENO,PROMPT,strlen(PROMPT));
+	while(read(STDOUT_FILENO,Commande,MAX)){
+		Commande[strlen(Commande)-1]='\0';
+		if(strncmp(Commande,"exit",4)==0){
+			write(STDOUT_FILENO,EXIT_MSG,strlen(EXIT_MSG));
+			return 0;
+		}
+		pid=fork();
+		if(pid==0){
+			execlp(Commande,Commande,NULL);
+		}
+		else{
+			wait(NULL);
+			int status;
+			char sigbuf[MAX];
+			if(WIFEXITED(status)){
+				sprintf(sigbuf,"code exit %d\n",WEXITSTATUS(status));
+				write(STDOUT_FILENO,sigbuf,MAX);
+				clean(sigbuf);
+			}else if(WIFSIGNALED(status)){
+				sprintf(sigbuf,"signal exit %d\n",WTERMSIG(status));
+				write(STDOUT_FILENO,sigbuf,MAX);
+				clean(sigbuf);
+			}
+			write(STDOUT_FILENO,PROMPT,strlen(PROMPT));
+		}
+	}
+	write(STDOUT_FILENO,"\n",1);
+	return EXIT_SUCCESS;
+}
