@@ -28,17 +28,18 @@ struct addrinfo *get_prog(char *servername){
     return result;
 }
 
-int sockMaker(struct addrinfo *rp){
+int main(int argc, char* argv[]){
 	int sock;
+	struct addrinfo * server = get_prog(argv[1]);
 	if((sock = socket( AF_INET , SOCK_STREAM, 0 ))< 0) {
 		perror("socket error") ;
 		exit( EXIT_FAILURE );
 	}
-	return sock;
-}
-
-int main(int argc, char* argv[]){
-	struct addrinfo * client = get_prog(argv[1]);
-	int sock = sockMaker(client);
+	int len;;
+	sendto(sock,
+	"hello",
+	strlen(hello),
+	MSG_CONFIRM,server,&len);
+	close(sock);
 	return EXIT_SUCCESS;
 }

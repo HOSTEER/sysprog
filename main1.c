@@ -3,8 +3,6 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <string.h>
-#include <unistd.h>
-
 
 #define PORT "69"
 
@@ -28,17 +26,9 @@ struct addrinfo *get_prog(char *servername){
     return result;
 }
 
-int sockMaker(struct addrinfo *rp){
-	int sock;
-	if((sock = socket( AF_INET , SOCK_STREAM, 0 ))< 0) {
-		perror("socket error") ;
-		exit( EXIT_FAILURE );
-	}
-	return sock;
-}
 
 int main(int argc, char* argv[]){
-	struct addrinfo * client = get_prog(argv[1]);
-	int sock = sockMaker(client);
+	get_prog(argv[1]);
 	return EXIT_SUCCESS;
 }
+

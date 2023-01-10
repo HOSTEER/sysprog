@@ -7,16 +7,10 @@
 #signal.o : signal.c
 #	gcc -c -Wall signal.c -g
 
-enseash : main2.o
-	gcc -o enseash main2.o
+client : client.o
+	gcc -o client client.o
 
-main2.o : main2.c
-	gcc -c -Wall main2.c -g
+client.o : client.c
+	gcc -c -Wall client.c -g
 
-#enseash : main3.o
-#	gcc -o enseash main3.o
-
-#main3.o : main3.c
-#	gcc -c -Wall main3.c -g
-	
 
